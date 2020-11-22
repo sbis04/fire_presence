@@ -4,13 +4,6 @@ admin.initializeApp();
 
 const firestore = admin.firestore();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
 exports.onUserStatusChange = functions.database
   .ref("/{uid}/presence")
   .onUpdate(async (change, context) => {
@@ -20,15 +13,11 @@ exports.onUserStatusChange = functions.database
     // Then use other event data to create a reference to the
     // corresponding Firestore document.
     const userStatusFirestoreRef = firestore.doc(`users/${context.params.uid}`);
+    
+    console.log(`status: ${isOnline}`);
 
-    if (!isOnline) {
-      console.log("User went offline");
-      return userStatusFirestoreRef.update({
-        presence: false,
-        last_seen: Date.now(),
-      });
-    } else {
-      console.log("User is online");
-      return null;
-    }
+    return userStatusFirestoreRef.update({
+      presence: isOnline,
+      last_seen: Date.now(),
+    });
   });
