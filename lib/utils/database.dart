@@ -24,5 +24,9 @@ class Database {
     }).catchError((e) => print(e));
   }
 
-  retrieveUsers() async {}
+  Stream<QuerySnapshot> retrieveUsers() {
+    Stream<QuerySnapshot> queryUsers = userCollection.where('uid', isNotEqualTo: uid).snapshots();
+
+    return queryUsers;
+  }
 }
