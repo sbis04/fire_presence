@@ -16,6 +16,12 @@ class _PresencePageState extends State<PresencePage> {
   Database database = Database();
 
   @override
+  void initState() {
+    database.updateUserPresence();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
