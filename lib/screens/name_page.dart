@@ -160,6 +160,7 @@ class _NamePageState extends State<NamePage> {
                             color: CustomColors.firebaseOrange,
                             onPressed: textController.text.isNotEmpty
                                 ? () async {
+                                    textFocusNode.unfocus();
                                     setState(() {
                                       _isStoring = true;
                                     });
