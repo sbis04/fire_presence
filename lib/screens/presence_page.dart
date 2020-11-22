@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fire_presence/model/user.dart';
 import 'package:fire_presence/res/custom_colors.dart';
 import 'package:fire_presence/utils/database.dart';
@@ -14,11 +16,21 @@ class PresencePage extends StatefulWidget {
 
 class _PresencePageState extends State<PresencePage> {
   Database database = Database();
+  Timer timer;
 
   @override
   void initState() {
     database.updateUserPresence();
+    timer = Timer.periodic(Duration(minutes: 1), (Timer t) {
+      setState(() {});
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -75,7 +87,7 @@ class _PresencePageState extends State<PresencePage> {
                                 ? '${differenceDuration.inDays} ${differenceDuration.inDays == 1 ? 'day' : 'days'}'
                                 : '${differenceDuration.inHours} ${differenceDuration.inHours == 1 ? 'hour' : 'hours'}'
                             : '${differenceDuration.inMinutes} ${differenceDuration.inMinutes == 1 ? 'minute' : 'minutes'}'
-                        : '${differenceDuration.inSeconds} ${differenceDuration.inSeconds == 1 ? 'second' : 'seconds'}';
+                        : 'few moments';
 
                     String presenceString = userData.presence ? 'Online' : '$durationString ago';
 
