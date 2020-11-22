@@ -1,4 +1,5 @@
 import 'package:fire_presence/res/custom_colors.dart';
+import 'package:fire_presence/utils/authentication.dart';
 import 'package:flutter/material.dart';
 
 class NamePage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _NamePageState extends State<NamePage> {
 
   @override
   void initState() {
-    textController = TextEditingController();
+    textController = TextEditingController(text: name);
     textFocusNode = FocusNode();
 
     super.initState();
