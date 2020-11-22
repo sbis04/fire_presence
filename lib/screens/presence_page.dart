@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fire_presence/model/user.dart';
 import 'package:fire_presence/res/custom_colors.dart';
+import 'package:fire_presence/utils/authentication.dart';
 import 'package:fire_presence/utils/database.dart';
 import 'package:flutter/material.dart';
 
@@ -90,34 +91,36 @@ class _PresencePageState extends State<PresencePage> {
 
                     String presenceString = userData.presence ? 'Online' : '$durationString ago';
 
-                    return ListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                      horizontalTitleGap: 0,
-                      leading: Icon(
-                        Icons.circle,
-                        size: 12.0,
-                        color: userData.presence
-                            ? Colors.greenAccent[400]
-                            : CustomColors.firebaseGrey.withOpacity(0.4),
-                      ),
-                      title: Text(
-                        userData.name,
-                        style: TextStyle(
-                          color: CustomColors.firebaseGrey,
-                          fontSize: 26.0,
-                        ),
-                      ),
-                      trailing: Text(
-                        presenceString,
-                        style: TextStyle(
-                          color: userData.presence
-                              ? Colors.greenAccent[400]
-                              : CustomColors.firebaseGrey.withOpacity(0.4),
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    );
+                    return userData.uid == uid
+                        ? Container()
+                        : ListTile(
+                            dense: true,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                            horizontalTitleGap: 0,
+                            leading: Icon(
+                              Icons.circle,
+                              size: 12.0,
+                              color: userData.presence
+                                  ? Colors.greenAccent[400]
+                                  : CustomColors.firebaseGrey.withOpacity(0.4),
+                            ),
+                            title: Text(
+                              userData.name,
+                              style: TextStyle(
+                                color: CustomColors.firebaseGrey,
+                                fontSize: 26.0,
+                              ),
+                            ),
+                            trailing: Text(
+                              presenceString,
+                              style: TextStyle(
+                                color: userData.presence
+                                    ? Colors.greenAccent[400]
+                                    : CustomColors.firebaseGrey.withOpacity(0.4),
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          );
                   },
                   separatorBuilder: (context, index) => SizedBox(height: 8),
                 );
