@@ -3,6 +3,7 @@ import 'package:fire_presence/model/user.dart';
 import 'package:fire_presence/utils/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Database {
   /// The main Firestore user collection
@@ -25,11 +26,17 @@ class Database {
       print("User data added");
     }).catchError((e) => print(e));
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_name', userName);
+
     updateUserPresence();
   }
 
   Stream<QuerySnapshot> retrieveUsers() {
-    Stream<QuerySnapshot> queryUsers = userCollection.where('uid', isNotEqualTo: uid).snapshots();
+    Stream<QuerySnapshot> queryUsers = userCollection
+        // .where('uid', isNotEqualTo: uid)
+        .orderBy('last_seen', descending: true)
+        .snapshots();
 
     return queryUsers;
   }
