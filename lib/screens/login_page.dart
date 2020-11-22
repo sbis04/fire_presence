@@ -9,6 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isLoggingIn = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              Row(),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -50,42 +53,57 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                child: Container(
-                  width: double.maxFinite,
-                  child: RaisedButton(
-                    color: CustomColors.firebaseOrange,
-                    onPressed: () {
-                      signInWithGoogle().then((result) {
-                        if (result != null) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => NamePage(),
+              _isLoggingIn
+                  ? Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          CustomColors.firebaseOrange,
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Container(
+                        width: double.maxFinite,
+                        child: RaisedButton(
+                          color: CustomColors.firebaseOrange,
+                          onPressed: () async {
+                            setState(() {
+                              _isLoggingIn = true;
+                            });
+                            await signInWithGoogle().then((result) {
+                              if (result != null) {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => NamePage(),
+                                  ),
+                                );
+                              }
+                            }).catchError((e) => print('Google sign in error: $e'));
+                            setState(() {
+                              _isLoggingIn = false;
+                            });
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            child: Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                fontFamily: 'Raleway',
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: CustomColors.firebaseGrey,
+                                letterSpacing: 2,
+                              ),
                             ),
-                          );
-                        }
-                      });
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                      child: Text(
-                        'LOGIN',
-                        style: TextStyle(
-                          fontFamily: 'Raleway',
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.firebaseGrey,
-                          letterSpacing: 2,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
