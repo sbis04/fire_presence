@@ -21,9 +21,8 @@ class _PresencePageState extends State<PresencePage> {
   @override
   void initState() {
     database.updateUserPresence();
-    timer = Timer.periodic(Duration(minutes: 1), (Timer t) {
-      setState(() {});
-    });
+    timer = Timer.periodic(Duration(minutes: 1), (_) => setState(() {}));
+
     super.initState();
   }
 
