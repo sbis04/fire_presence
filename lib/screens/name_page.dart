@@ -166,15 +166,13 @@ class _NamePageState extends State<NamePage> {
 
                                     await database
                                         .storeUserData(userName: textController.text)
-                                        .whenComplete(
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) => PresencePage(
-                                                userName: textController.text,
+                                        .whenComplete(() => Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) => PresencePage(
+                                                  userName: textController.text,
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        )
+                                            ))
                                         .catchError(
                                           (e) => print('Error in storing data: $e'),
                                         );
