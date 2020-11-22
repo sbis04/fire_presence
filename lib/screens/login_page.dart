@@ -1,5 +1,6 @@
 import 'package:fire_presence/res/custom_colors.dart';
 import 'package:fire_presence/screens/name_page.dart';
+import 'package:fire_presence/utils/authentication.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -56,11 +57,15 @@ class _LoginPageState extends State<LoginPage> {
                   child: RaisedButton(
                     color: CustomColors.firebaseOrange,
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => NamePage(),
-                        ),
-                      );
+                      signInWithGoogle().then((result) {
+                        if (result != null) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => NamePage(),
+                            ),
+                          );
+                        }
+                      });
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
