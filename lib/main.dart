@@ -12,7 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'Fire Presence',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'GoogleSans',
       ),
+      debugShowCheckedModeBanner: false,
       home: LoginPage(),
     );
   }
