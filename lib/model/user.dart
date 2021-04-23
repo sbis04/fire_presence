@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class User {
-  String uid;
-  String name;
-  bool presence;
-  int lastSeenInEpoch;
+  late String uid;
+  late String name;
+  late bool presence;
+  late int lastSeenInEpoch;
 
   User({
     @required this.uid,
